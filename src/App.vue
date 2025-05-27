@@ -11,19 +11,38 @@
               {{ moneda.texto }}
             </option>
           </select>
+          <label for="crypto">Cryptos</label>
+          <select id="crypto">
+            <option value="">-- Seleccione --</option>
+            <option v-for="crypto in cryptos" :key="crypto.CoinInfo.Id" :value="crypto.CoinInfo.Name">
+              {{ crypto.CoinInfo.FullName }}
+            </option>
+          </select>
         </div>
+        
+        <input type="submit" value="Cotizar"/>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
 
   const monedas = ref([
     { codigo: 'USD', texto: 'Dólar Estadounidense'},
     { codigo: 'MXN', texto: 'Peso Mexicano' },
     { codigo: 'EUR', texto: 'Euro' },
     { codigo: 'GBP', texto: 'Libra Esterlina' }
-  ])
+  ]);
+
+  const cryptos = ref([]);
+
+  onMounted(() => {
+    const APIurl = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD';
+    fetch(APIurl)
+      .then(response => response.json())
+      .then(({Data}) => cryptos.value = Data)
+      .catch(error => console.error('Error al obtener las monedas:', error));
+  });
 </script>

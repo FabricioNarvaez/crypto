@@ -26,7 +26,7 @@
         <input type="submit" value="Cotizar"/>
       </form>
 
-      <div class="resultContainer">
+      <div class="resultContainer" v-if="Object.keys(quotation).length > 0">
         <h2>Cotización</h2>
 
         <div class="result">

@@ -5,14 +5,14 @@
       <form class="formulario">
         <div class="campo">
           <label for="moneda">Moneda:</label>
-          <select id="moneda">
+          <select id="moneda" v-model="quote.coin">
             <option value="">-- Seleccione --</option>
-            <option v-for="moneda in monedas" :key="moneda.codigo" :value="moneda.codigo">
+            <option v-for="moneda in coins" :key="moneda.codigo" :value="moneda.codigo">
               {{ moneda.texto }}
             </option>
           </select>
           <label for="crypto">Cryptos</label>
-          <select id="crypto">
+          <select id="crypto" v-model="quote.crypto">
             <option value="">-- Seleccione --</option>
             <option v-for="crypto in cryptos" :key="crypto.CoinInfo.Id" :value="crypto.CoinInfo.Name">
               {{ crypto.CoinInfo.FullName }}
@@ -27,9 +27,9 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, reactive, onMounted } from 'vue';
 
-  const monedas = ref([
+  const coins = ref([
     { codigo: 'USD', texto: 'Dólar Estadounidense'},
     { codigo: 'MXN', texto: 'Peso Mexicano' },
     { codigo: 'EUR', texto: 'Euro' },
@@ -37,6 +37,10 @@
   ]);
 
   const cryptos = ref([]);
+  const quote = reactive({
+    coin: '',
+    crypto: ''
+  })
 
   onMounted(() => {
     const APIurl = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=20&tsym=USD';

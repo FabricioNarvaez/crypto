@@ -25,6 +25,21 @@
         
         <input type="submit" value="Cotizar"/>
       </form>
+
+      <div class="resultContainer">
+        <h2>Cotización</h2>
+
+        <div class="result">
+          <img :src="'https://cryptocompare.com/' + quotation.IMAGEURL" alt="Imagen crypto">
+          <div>
+            <p>El precio es de: <span>{{ quotation.PRICE }}</span></p>
+            <p>Precio más alto del día: <span>{{ quotation.HIGHDAY }}</span></p>
+            <p>Precio más bajo del día: <span>{{ quotation.LOWDAY }}</span></p>
+            <p>Variación últimas 24h: <span>{{ quotation.CHANGEPCT24HOUR }} %</span></p>
+            <p>Última actualización: <span>{{ quotation.LASTUPDATE }}</span></p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

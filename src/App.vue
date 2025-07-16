@@ -26,6 +26,7 @@
         <input type="submit" value="Cotizar"/>
       </form>
 
+      <Spinner v-if="loading"/>
       <div class="resultContainer" v-if="Object.keys(quotation).length > 0">
         <h2>Cotización</h2>
 
@@ -47,6 +48,7 @@
 <script setup>
   import { ref, reactive, onMounted } from 'vue';
   import Alert from './components/Alert.vue';
+  import Spinner from './components/Spinner.vue';
 
   const coins = ref([
     { codigo: 'USD', texto: 'Dólar Estadounidense'},
@@ -62,6 +64,7 @@
     coin: '',
     crypto: ''
   });
+  const loading = ref(false);
 
   const quoteCrypto = () => {
     if (Object.values(quote).includes('')){
@@ -73,6 +76,7 @@
   }
 
   const obtainQuote = async () => {
+    loading.value = true;
     const {coin, crypto} = quote;
     const APIurl = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${crypto}&tsyms=${coin}`;
     
@@ -80,6 +84,7 @@
     const response = await fetch(APIurl);
     const data = await response.json();
     quotation.value = data.DISPLAY[crypto][coin];
+    loading.value = false;
   };
 
   onMounted(() => {
